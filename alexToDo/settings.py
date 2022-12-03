@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-f-2!1eg_cbu#@a%*k471zi5aow3$!zmzwb)o1xi)%e7+@p%_n%
 #DEBUG = False # production
 DEBUG= True  # dev
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = ['http://alextodo3.herokuapp.com/']
 
 
 # Application definition
