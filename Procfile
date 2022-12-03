@@ -1,1 +1,1 @@
-web: gunicorn alexToDo2.wsgi --log-file -
+web: gunicorn alexToDo.wsgi --log-file -
