@@ -1,0 +1,126 @@
+{% extends 'base2.html'%}
+
+{% block title %} {{task.titulo}} {% endblock%}
+
+{% block content%}
+
+<div class="offset-1 col-10 list-div">
+    <h1 id="titulo">Tarefa: {{task.titulo}}</h1>
+</div>
+
+<div style="width: 70%; border-bottom: 1px solid #333; margin-left: 12%; margin-bottom: 20px "></div>
+
+<div >
+    <!--Aqui detalhes das tarefas-->
+    <table style="margin-left:12%">
+        <tr >
+            <td style="vertical-align: top;">
+                <div style="margin-left: 13%; font-size: 15pt;">Descrição: </div>
+            </td>
+            <td style="width: 1050px;">
+                <div style="margin-bottom: 10px; margin-left: 5%; font-size: 15pt; color: steelblue; text-align: justify;">{{task.descricao}}</div>
+            </td>
+        </tr>
+        <tr >
+            <td style="vertical-align: top;">
+                <div style="margin-left: 13%; font-size: 15pt;">Status: </div>
+            </td>
+            <td style="width: 950px;">
+                <div style="margin-bottom: 10px; margin-left: 5%; font-size: 15pt; color:blueviolet; text-align: justify;">{{task.etapas}}</div>
+            </td>
+        </tr>  
+        <tr >
+            <td style="vertical-align: top;">
+                <div style="margin-left: 13%; font-size: 15pt;">Prazo: </div>
+            </td>
+            <td style="width: 950px;">
+                <div style="margin-bottom: 10px; margin-left: 5%; font-size: 15pt; color:blueviolet; text-align: justify;">{{task.ends_at}}</div>
+            </td>
+        </tr>
+        
+    </table>
+    <div style="width: 70%; border-bottom: 1px solid #333; margin-left: 12%; margin-bottom: 20px "></div>
+
+    <!--Aqui controles das tarefas-->
+    <div class='div_botoes' style="text-align: center; margin-bottom: 10px;">
+        {% if task.etapas == "não iniciada" %}   
+            <a href ="{% url 'starttask' %}">
+                <button class="btn btn-success" ></i> Iniciar Tarefa </button> 
+            </a>
+            <a href="{% url 'justtask' %}">
+                <button class="btn btn-warning"  type="submit"></i> Justificar </button> 
+            </a>
+        {% elif task.etapas == "iniciada"%}
+            <a href ="{% url 'stoptask' %}">
+                <button class="btn btn-success"  type="submit"></i> Finalizar Tarefa </button> 
+            </a>
+            <a href ="{% url 'justtask' %}">
+                <button class="btn btn-warning"  type="submit"></i> Justificar </button> 
+            </a>
+            <form action="{% url 'salvaObs' %}" method="POST">
+            {% csrf_token %}
+                <div style="text-align: left; margin-left: 23%;"><p>Observações: </p></div>
+                <p><textarea  name='obs' style="margin-left: 9%; height: 70px; width: 55%;" >{{task.obs}}</textarea></p>
+                    <div style="text-align: right; width: 82%">
+                        <a><input type="submit" class="btn btn-primary" value="Salvar"> </a>
+                    </div>
+            </form>    
+            {% elif task.etapas == "justificada" %}
+            <table style="margin-left:12%">
+                <tr >
+                    <td style="vertical-align: top;">
+                        <div style="font-size: 15pt;">Iniciada: </div>
+                    </td>
+                    <td style="width: 100%;">
+                        <div style="margin-bottom: 10px; margin-left: 3%; font-size: 15pt; color: steelblue; text-align: justify;">{{task.start_at}}</div>
+                    </td>
+                </tr>
+                <tr >
+                    <td style="vertical-align: top;">
+                        <div style="margin-left: 11%; font-size: 15pt;">Justificada: </div>
+                    </td>
+                    <td style="width: 100%;">
+                        <div style="margin-bottom: 10px; margin-left: 3%; font-size: 15pt; color: steelblue; text-align: justify">{{task.concluida_at}}</div>
+                    </td>
+                </tr> 
+                <tr >
+                    <td style="vertical-align: top;">
+                        <div style="margin-left: 11%; font-size: 15pt;">Justificativa: </div>
+                    </td>
+                    <td style="width: 100%;">
+                        <div style="margin-bottom: 10px; margin-left: 3%; font-size: 15pt; color: steelblue; text-align: justify;">{{task.obs}}</div>
+                    </td>
+                </tr> 
+            </table>
+            {% else %}
+            <table style="margin-left:12%">
+                <tr >
+                    <td style="vertical-align: top;">
+                        <div style="font-size: 15pt;">Iniciada: </div>
+                    </td>
+                    <td style="width: 100%;">
+                        <div style="margin-bottom: 10px; margin-left: 3%; font-size: 15pt; color: steelblue; text-align: justify;">{{task.start_at}}</div>
+                    </td>
+                </tr>
+                <tr >
+                    <td style="vertical-align: top;">
+                        <div style="margin-left: 11%; font-size: 15pt;">Finalizada: </div>
+                    </td>
+                    <td style="width: 100%;">
+                        <div style="margin-bottom: 10px; margin-left: 3%; font-size: 15pt; color: steelblue; text-align: justify;">{{task.concluida_at}} {% if atraso %}com <font color="red"> {{atraso}} dias de atraso</font>{% endif %}</div>
+                    </td>
+                </tr> 
+                <tr >
+                    <td style="vertical-align: top;">
+                        <div style="margin-left: 11%; font-size: 15pt;">Observação: </div>
+                    </td>
+                    <td style="width: 100%;">
+                        <div style="margin-bottom: 10px; margin-left: 3%; font-size: 15pt; color: steelblue; text-align: justify;">{{task.obs}}</div>
+                    </td>
+                </tr> 
+            </table>
+            {% endif%}
+        </div>
+    </div>
+
+{% endblock %}

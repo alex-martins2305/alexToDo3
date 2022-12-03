@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+{% block title %} Lista de Tarefas {% endblock%}
+
+{% block content%}
+<div class="offset-1 col-10 list-div">
+    <h1 id="titulo">Lista de Tarefas</h1>
+    <div class="col-2 add-div">
+        <table>
+            <td >
+                <a id="add-link" href="{% url 'newtask' %}">
+                    <button class="btn btn-success"><i class="fas fa-plus" style="color: black"></i> Adicionar Tarefa </button> 
+                </a>
+            </td>
+            <td>
+                <form method="GET" id="search-form">
+                    <div class="col-9 search-div">
+                        <input class="form-control" type="text" name="buscar" id="search" placeholder="Digite o nome da tarefa para buscar"> 
+                    </div>
+                </form>
+            </td> 
+            <td>
+                <i class="fas fa-search" id="search-btn"></i>
+            </td>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</li> 
+                {% endfor %}
+            </ul>
+        {% endif  %}
+            
+        </table>
+        <ul class="task-list">
+            {% for tasks in tasks %}
+            <li class="task-item">
+                <span><a href="task/{{tasks.id}}">{{tasks.titulo}}</a> </span>
+                <a href="edit/{{tasks.id}}" ><i class="fas fa-edit"></i></a> 
+                <a href="delete/{{tasks.id}}" class="delete-btn" ><i class="fas fa-trash"></i></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

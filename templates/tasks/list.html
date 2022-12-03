@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+
+{% block title %} Lista de Tarefas {% endblock%}
+
+{% block content%}
+        <h2 >Tarefas</h2>
+        {% include 'partials/_tituloTabela.html' %}
+        <ul class="task-list">
+            <table>
+                {% if Tasks_atrasadas  %}
+                    {% for tasks in Tasks_atrasadas %}
+                        <tr style="font-size: 20px; height: 50px;  border-bottom: 3px dashed #CCC;">
+                            <td style="width: 360px">
+                                <a style="padding-right: 30%; color:red;" href="task/{{tasks.id}}">{{tasks.titulo}}</a>
+                            </td>
+                            <td style="width: 420px;">
+                                <a style="margin-right: 17%; color:red;" href="task/{{tasks.id}}">{{tasks.ends_at}}</a>
+                            </td>
+                            <td style="width: 30%;">
+                                <a style="color:red;" href="task/{{tasks.id}}">{{tasks.etapas}}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+               
+                {% if TasksDoDia %}
+                    {% for tasks in TasksDoDia %}
+                        <tr style="font-size: 20px; height: 50px; padding-top: 10px; border-bottom: 3px dashed #CCC;">
+                            <td style="width: 360px">
+                                <a style="padding-right: 30%; color:green;" href="task/{{tasks.id}}">{{tasks.titulo}}</a>
+                            </td>
+                            <td style="width: 420px;">
+                                <a style="margin-right: 17%; color:green;" href="task/{{tasks.id}}">{{tasks.ends_at}}</a>
+                            </td>
+                            <td style="width: 30%;">
+                                <a style="color:green;" href="task/{{tasks.id}}">{{tasks.etapas}}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% for tasks in tasks_futuras %}
+                {% if tasks %}
+                    <tr style="font-size: 20px; height: 50px; padding-top: 10px; border-bottom: 3px dashed #CCC;" >
+                        <td style="width: 360px">
+                            <a style=color:blue; href="task/{{tasks.id}}">{{tasks.titulo}}</a>
+                        </td>
+                        <td style="width: 420px;">
+                            <a style=color:blue; href="task/{{tasks.id}}">{{tasks.ends_at}}</a>
+                        </td>
+                        <td style="width: 30%;">
+                            <a style="color:blue;" href="task/{{tasks.id}}">{{tasks.etapas}}</a>
+                        </td>
+                    </tr>
+                {% else %}
+                {% endif %}
+            {% endfor %}
+        </table>
+        </ul>
+       
+    </div>
+</div>
+{% endblock %}

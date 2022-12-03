@@ -1,0 +1,29 @@
+{% extends 'base2.html'%}
+{% block title %} Adicione sua tarefa {% endblock%}
+{% block content%}
+<div style="margin-left: 10%">
+    <h1>Adicione sua própria tarefa</h1>
+    <table>
+        <tr>
+            <td>
+                Título
+            </td>
+            <td>
+                <input style="margin-bottom: 10%;">
+            </td>
+        <tr>
+            <td >
+                Descrição:
+            </td>
+            <td>
+                <textarea row="8" style="width: 40%;"></textarea>
+            </td>
+    </table>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-success" value="Criar Tarefa"> 
+    </form>
+</div>  
+</div>
+
+{% endblock %}

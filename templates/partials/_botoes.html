@@ -1,0 +1,8 @@
+<div style="margin-left: 12%;">
+    <a href="{% url 'tasklist' %}" ><input type="submit" class="btn btn-primary" value="Todas"> </a>
+    <a href="{% url 'tasksvencidas' %}" ><input type="submit" class="btn btn-danger" value="Atrasadas"> </a>
+    <a href="{% url 'tasksDoDia' %}"><input type="submit" class="btn btn-success" value="Do dia"> </a>
+    <a href="{% url 'tasksFuturas' %}"><input type="submit" class="btn btn-info" value="Futuras"> </a>
+    <a href="{% url 'tasksEncerradas' %}"><input type="submit" class="btn btn-secondary" value="Finalizadas"> </a>
+    <a href="{% url 'tasksJustificadas' %}"><input type="submit" class="btn btn-outline-dark" value="Justificadas"> </a>
+</div>

@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{% block title %}Tarefas Futuras {% endblock%}
+
+{% block content%}
+
+<h2 >Futuras</h2>
+{% include 'partials/_tituloTabela.html' %}
+        <ul class="task-list">
+            <table>
+                {% if TasksFuturas %}
+                {% for tasks in TasksFuturas %}
+                    <tr style="font-size: 20px; height: 50px;  border-bottom: 3px dashed #CCC;">
+                        <td style="width: 360px">
+                            <a style="padding-right: 30%; color:blue;" href="task/{{tasks.id}}">{{tasks.titulo}}</a>
+                        </td>
+                        <td style="width: 420px;">
+                            <a style="margin-right: 17%; color:blue" href="task/{{tasks.id}}">{{tasks.ends_at}}</a>
+                        </td>
+                        <td style="width: 30%;">
+                            <a style="color:blue;" href="task/{{tasks.id}}">{{tasks.etapas}}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <tr > <p style="text-align: left; color: gray">Sem tarefas</p></tr>
+                {% endif %}       
+        </table>
+        </ul> 
+    </div>
+</div>
+{% endblock %}

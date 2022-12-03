@@ -1,0 +1,30 @@
+{% extends 'base2.html'%}
+{% block title %} Adicione sua tarefa {% endblock%}
+{% block content%}
+<form action="{% url 'newtask' %}" method="POST">
+    {% csrf_token %}
+<div style="margin-left: 13%;">
+    <h1 data-component="header">Adicione sua própria tarefa</h1>
+    <label > Título </label>
+        <div style="margin-bottom: 2%;">
+            <input type="text" name="titulo" data-type="input-textbox" data-defaultvalue="" size="30" value="" placeholder=" " data-component="textbox" aria-labelledby="label_1">
+        </div>
+    </label>
+
+    <label > Descrição da tarefa</label>
+    <div style="margin-bottom: 1%;">
+        <textarea name="descricao" cols="50" rows="10" data-component="textarea" required="" aria-labelledby="label_5" style="resize: none;"></textarea>
+    </div>
+    
+    <label > Concluir até: </label>
+        <div>
+            <input type="date" name="ends_at" data-defaultvalue="" size="30" value="" placeholder=" ">
+        </div>
+    </label>
+
+    <div style="text-align: right; width:25%">
+            <input type="submit" class="btn btn-success" value="Criar Tarefa"> 
+    </div>
+</div>
+</form>
+{% endblock %}
