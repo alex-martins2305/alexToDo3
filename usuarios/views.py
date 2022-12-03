@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from tasks.models  import Task
 from django.contrib import auth, messages
+from django.contrib.auth import logout as django_logout
 
 def cadastro(request):
     if request.method=='POST':
@@ -36,7 +37,7 @@ def login(request):
         senha = request.POST['senha']
         if campo_vazio(email) or campo_vazio(senha):
             messages.error(request,'Os campos email e senha não podem ficar em branco')
-            return render(request, 'usuarios/login.html')
+            return redirect('login')
 
         if User.objects.filter(email=email).exists():
             nome = User.objects.filter(email=email).values_list('username', flat=True).get()
@@ -47,11 +48,13 @@ def login(request):
         
     return render(request, 'usuarios/login.html')
 
-def logout(request):
-    auth.logout(request)
-    return render(request, 'usuarios/login.html')
-# Funções de validação:
 
+def logout(request):
+    django_logout(request)
+    return redirect('login')
+
+
+# Funções de validação:
 def campo_vazio(campo):
     return not campo.strip()
 
