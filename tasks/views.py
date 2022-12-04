@@ -5,25 +5,30 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from datetime import date
 from usuarios.views import campo_vazio
+from django.http import HttpResponse
 
 task_global=''
 
 def tasklist(request):
-    if request.user.is_authenticated:
-        id = request.user.id
+    try:
+        if request.user.is_authenticated:
+            id = request.user.id
 
-        Tasks_atrasadas1=Task.objects.filter(ends_at__lt=date.today(), pessoa=id).values().order_by('-created_at') 
-        Tasks_atrasadas=Tasks_atrasadas1.filter(etapas='não iniciada')|Tasks_atrasadas1.filter(etapas='iniciada')
+            Tasks_atrasadas1=Task.objects.filter(ends_at__lt=date.today(), pessoa=id).values().order_by('-created_at') 
+            Tasks_atrasadas=Tasks_atrasadas1.filter(etapas='não iniciada')|Tasks_atrasadas1.filter(etapas='iniciada')
 
-        TasksDoDia1=Task.objects.filter(ends_at__exact=date.today(), pessoa=id ).values().order_by('-created_at')
-        TasksDoDia=TasksDoDia1.filter(etapas='iniciada')|TasksDoDia1.filter(etapas='não iniciada')
-        
-        Tasks_futuras1=Task.objects.filter(ends_at__gt=date.today(), pessoa=id ).values().order_by('-created_at')
-        Tasks_futuras=Tasks_futuras1.filter(etapas='não iniciada')|Tasks_futuras1.filter(etapas='iniciada')
+            TasksDoDia1=Task.objects.filter(ends_at__exact=date.today(), pessoa=id ).values().order_by('-created_at')
+            TasksDoDia=TasksDoDia1.filter(etapas='iniciada')|TasksDoDia1.filter(etapas='não iniciada')
+            
+            Tasks_futuras1=Task.objects.filter(ends_at__gt=date.today(), pessoa=id ).values().order_by('-created_at')
+            Tasks_futuras=Tasks_futuras1.filter(etapas='não iniciada')|Tasks_futuras1.filter(etapas='iniciada')
 
-        return render(request, 'tasks/list.html',{'Tasks_atrasadas':Tasks_atrasadas, 'TasksDoDia':TasksDoDia, 'tasks_futuras':Tasks_futuras})  
-    else:
-       return render(request, 'usuarios/login.html')
+            return render(request, 'tasks/list.html',{'Tasks_atrasadas':Tasks_atrasadas, 'TasksDoDia':TasksDoDia, 'tasks_futuras':Tasks_futuras})  
+        else:
+            return render(request, 'usuarios/login.html')
+    except ValueError:
+        print('Deu ruim')
+        return HttpResponse('<h1>Desculpe, um error aconteceu no programa, por favor atualize a página e repita seu procedimento.</h1>') 
 
 def tasksvencidas(request):
     if request.user.is_authenticated:
@@ -70,14 +75,13 @@ def tasksJustificadas(request):
 
 def taskview(request,id):
     global task_global
-    diasAtraso=''
     task_global=get_object_or_404(Task, pk=id)
     #diasAtraso1=abs((task_global.concluida_at-task_global.ends_at).days)
     #print(diasAtraso1)
     #if diasAtraso1>0:
     #    diasAtraso=diasAtraso1
     #print(diasAtraso)
-    return render(request, 'tasks/task.html',{'task':task_global,'atraso':diasAtraso})
+    return render(request, 'tasks/task.html',{'task':task_global})
 
 def starttask(request):
     task_global.etapas='iniciada'

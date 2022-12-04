@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from tasks.models  import Task
 from django.contrib import auth, messages
 from django.contrib.auth import logout as django_logout
+from django.http import HttpResponse
 
 def cadastro(request):
     if request.method=='POST':
@@ -50,8 +51,11 @@ def login(request):
 
 
 def logout(request):
-    django_logout(request)
-    return redirect('login')
+    try:
+        django_logout(request)
+        return redirect('login')
+    except ValueError:
+        return HttpResponse('<h1>Desculpe, aconteceu um erro no logout, volte e tente novamente.</h1>')
 
 
 # Funções de validação:
