@@ -9,7 +9,7 @@
                 <a style="margin-left: 10px;"class="nav-link" href="/">Tarefas</a>
                 <a style="margin-left: 10px;" class="nav-link" href="{% url 'login' %}">Login</a>
             {% endif %}
-                <a style="margin-left: 10px;"class="nav-link" href="#">Sobre nós</a>
+                <a style="margin-left: 10px;"class="nav-link" href="{% url 'about_us' %}">Sobre nós</a>
             {% if user.is_superuser %}
                 <a style="margin-left: 10px;"class="nav-link" href="{% url 'admin:index' %}">Admin</a>
             {% endif %}

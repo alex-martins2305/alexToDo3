@@ -13,7 +13,9 @@
 <body>
     <div class="container-fluid">
         {% include 'partials/_menu.html' %}
-        {% include 'partials/_botoes.html' %}
+        {% if user.is_authenticated %}
+            {% include 'partials/_botoes.html' %}
+        {% endif %}
 <div class="offset-1 col-10 list-div">
     <div class="col-2 add-div">
         <table>

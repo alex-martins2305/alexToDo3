@@ -28,7 +28,7 @@ def tasklist(request):
             return render(request, 'usuarios/login.html')
     except ValueError:
         print('Deu ruim')
-        return HttpResponse('<h1>Desculpe, um error aconteceu no programa, por favor atualize a página e repita seu procedimento.</h1>') 
+        return render(request, 'usuarios/login.html')
 
 def tasksvencidas(request):
     if request.user.is_authenticated:
@@ -84,45 +84,56 @@ def taskview(request,id):
     return render(request, 'tasks/task.html',{'task':task_global})
 
 def starttask(request):
-    task_global.etapas='iniciada'
-    task_global.start_at=date.today()
-    task_global.save()
-    return render(request, 'tasks/task.html',{'task':task_global})   
+    try:
+        task_global.etapas='iniciada'
+        task_global.start_at=date.today()
+        task_global.save()
+        return render(request, 'tasks/task.html',{'task':task_global})   
+    except ValueError:
+         return redirect('task') 
 
 def justtask(request):
-    task_global.etapas='justificada'
-    task_global.concluida_at=date.today()
-    diasAtraso=(task_global.concluida_at-task_global.ends_at).days
-    print(diasAtraso)
-    task_global.save()
-    return render(request, 'tasks/task.html',{'task':task_global})
+    try:
+        task_global.etapas='justificada'
+        task_global.concluida_at=date.today()
+        diasAtraso=(task_global.concluida_at-task_global.ends_at).days
+        print(diasAtraso)
+        task_global.save()
+        return render(request, 'tasks/task.html',{'task':task_global})
+    except ValueError:
+        return redirect('task')
 
 def stoptask(request):
-    task_global.etapas='finalizada'
-    task_global.concluida_at=date.today()
-    diasAtraso=task_global.concluida_at-task_global.start_at
-    task_global.save()
-    return render(request, 'tasks/task.html',{'task':task_global})
+    try:
+        task_global.etapas='finalizada'
+        task_global.concluida_at=date.today()
+        diasAtraso=task_global.concluida_at-task_global.start_at
+        task_global.save()
+        return render(request, 'tasks/task.html',{'task':task_global})
+    except ValueError:
+        return redirect('task')
     
 def newtask(request):
-    if request.method=='POST':
-        titulo=request.POST['titulo']
-        descricao=request.POST['descricao']
-        ends_at=request.POST['ends_at']
-        pessoa=get_object_or_404(User, pk=request.user.id)
-        if campo_vazio(titulo):
-            return redirect('newtask')
-        if campo_vazio(descricao):
-            return redirect('newtask')
-        if campo_vazio(ends_at):
-            return redirect('newtask')
-        task = Task.objects.create(pessoa=pessoa, titulo=titulo, etapas='não iniciada', status='ativa', descricao=descricao, ends_at=ends_at, concluida_at='9999-12-31')
-        task.save()
-        messages.success(request, 'Nova tarefa criada!')
-        return redirect('/')
-    else:    
-        return render(request, 'tasks/newtask1.html')
-
+    try:
+        if request.method=='POST':
+            titulo=request.POST['titulo']
+            descricao=request.POST['descricao']
+            ends_at=request.POST['ends_at']
+            pessoa=get_object_or_404(User, pk=request.user.id)
+            if campo_vazio(titulo):
+                return redirect('newtask')
+            if campo_vazio(descricao):
+                return redirect('newtask')
+            if campo_vazio(ends_at):
+                return redirect('newtask')
+            task = Task.objects.create(pessoa=pessoa, titulo=titulo, etapas='não iniciada', status='ativa', descricao=descricao, ends_at=ends_at, concluida_at='9999-12-31')
+            task.save()
+            messages.success(request, 'Nova tarefa criada!')
+            return redirect('/')
+        else:    
+            return render(request, 'tasks/newtask1.html')
+    except ValueError:
+        return redirect ('newtask')
 
 def salvaObs(request): 
     if request.method == 'POST':

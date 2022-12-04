@@ -55,8 +55,10 @@ def logout(request):
         django_logout(request)
         return redirect('login')
     except ValueError:
-        return HttpResponse('<h1>Desculpe, aconteceu um erro no logout, volte e tente novamente.</h1>')
-
+        return render(request, 'usuarios/login.html')
+        
+def about_us(request):
+    return render (request,'about_us.html')
 
 # Funções de validação:
 def campo_vazio(campo):
